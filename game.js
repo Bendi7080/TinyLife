@@ -400,4 +400,152 @@ setInterval(() => {
 updateInterface();
 
 messageElement.textContent =
-    "🌷 Добро пожаловать в TinyLife 0.3!";
+    "🌷 Добро пожаловать в TinyLife 0.4!";
+
+// ==========================================
+// РЕДАКТОР ПЕРСОНАЖА
+// ==========================================
+
+const characterData = {
+
+    name: "Новый персонаж",
+
+    hair: 1,
+
+    eyes: 1,
+
+    top: 1,
+
+    bottom: 1
+};
+
+
+function openCharacterEditor() {
+
+    const editor =
+        document.getElementById("characterEditor");
+
+    editor.classList.add("active");
+
+    updateCharacterEditor();
+}
+
+
+function closeCharacterEditor() {
+
+    const editor =
+        document.getElementById("characterEditor");
+
+    editor.classList.remove("active");
+}
+
+
+function updateCharacterEditor() {
+
+    document.getElementById("characterName").value =
+        characterData.name;
+
+    document.getElementById("hairValue").textContent =
+        "Волосы " + characterData.hair;
+
+    document.getElementById("eyesValue").textContent =
+        "Глаза " + characterData.eyes;
+
+    document.getElementById("topValue").textContent =
+        "Верх " + characterData.top;
+
+    document.getElementById("bottomValue").textContent =
+        "Низ " + characterData.bottom;
+
+
+    updateCharacterPreview();
+}
+
+
+function changeHair(amount) {
+
+    characterData.hair += amount;
+
+    if (characterData.hair < 1)
+        characterData.hair = 4;
+
+    if (characterData.hair > 4)
+        characterData.hair = 1;
+
+    updateCharacterEditor();
+}
+
+
+function changeEyes(amount) {
+
+    characterData.eyes += amount;
+
+    if (characterData.eyes < 1)
+        characterData.eyes = 4;
+
+    if (characterData.eyes > 4)
+        characterData.eyes = 1;
+
+    updateCharacterEditor();
+}
+
+
+function changeTop(amount) {
+
+    characterData.top += amount;
+
+    if (characterData.top < 1)
+        characterData.top = 4;
+
+    if (characterData.top > 4)
+        characterData.top = 1;
+
+    updateCharacterEditor();
+}
+
+
+function changeBottom(amount) {
+
+    characterData.bottom += amount;
+
+    if (characterData.bottom < 1)
+        characterData.bottom = 4;
+
+    if (characterData.bottom > 4)
+        characterData.bottom = 1;
+
+    updateCharacterEditor();
+}
+
+
+function updateCharacterPreview() {
+
+    const preview =
+        document.getElementById("characterPreview");
+
+    preview.textContent = "👤";
+}
+
+
+function saveCharacter() {
+
+    const name =
+        document.getElementById("characterName").value.trim();
+
+    if (name !== "") {
+
+        characterData.name = name;
+    }
+
+
+    localStorage.setItem(
+        "tinyLifeCharacter",
+        JSON.stringify(characterData)
+    );
+
+
+    messageElement.textContent =
+        `👤 Персонаж "${characterData.name}" сохранён!`;
+
+    closeCharacterEditor();
+}
