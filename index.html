@@ -1,284 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>TinyLife</title>
-
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="assets.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TinyLife</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="assets.css">
 </head>
-
 <body>
-
-    <div class="game">
-
-        <!-- Верхняя панель -->
-        <header class="top-bar">
-
-            <div class="game-title">
-                <h1>TinyLife</h1>
-                <p id="day">Понедельник, 1 сентября</p>
-            </div>
-
-            <div class="clock" id="clock">
-                07:00
-            </div>
-
-        </header>
-
-
-        <!-- Комната -->
-        <main class="room">
-
-    <div class="window interactable"
-         data-object="window"
-         onclick="interact('window')">
-        ☀️
+<div class="app">
+  <header class="topbar">
+    <div><div class="logo">Tiny<span>Life</span></div><div id="day" class="date">Понедельник, 1.9.2026</div></div>
+    <div class="clockbox">🕐 <b id="clock">07:00</b></div>
+    <div class="stats">
+      <div>⚡ <b id="energy">80</b></div><div>🍽️ <b id="hunger">70</b></div><div>😊 <b id="mood">75</b></div><div>💶 <b id="money">50</b></div>
     </div>
-
-    <div class="bed interactable"
-         data-object="bed"
-         onclick="interact('bed')">
-        🛏️
-    </div>
-
-    <div class="desk interactable"
-         data-object="computer"
-         onclick="interact('computer')">
-        🖥️
-    </div>
-
-    <div class="plant interactable"
-         data-object="plant"
-         onclick="interact('plant')">
-        🪴
-    </div>
-
-    <div class="rug"></div>
-
-    <div class="character"
-         id="character"
-         onclick="interact('character')">
-        🧍
-    </div>
-
-    <div class="door interactable"
-         data-object="door"
-         onclick="interact('door')">
-        🚪
-    </div>
-
-</main>
-        <!-- Характеристики -->
-        <section class="stats">
-
-            <div class="stat">
-                <span>⚡ Энергия</span>
-                <strong id="energy">80</strong>
-            </div>
-
-            <div class="stat">
-                <span>🍎 Голод</span>
-                <strong id="hunger">70</strong>
-            </div>
-
-            <div class="stat">
-                <span>🙂 Настроение</span>
-                <strong id="mood">75</strong>
-            </div>
-
-            <div class="stat">
-                <span>💶 Деньги</span>
-                <strong id="money">50</strong>
-            </div>
-
-        </section>
-        
-<section class="character-menu">
-    <button onclick="openCharacterEditor()"
-    👤 Персонаж
-</button>
-</section>
-
-        <!-- Действия -->
-        <section class="actions">
-
-            <button onclick="gameAction('sleep')">
-                🛏️ Спать
-            </button>
-
-            <button onclick="gameAction('eat')">
-                🍳 Поесть
-            </button>
-
-            <button onclick="gameAction('wash')">
-                🚿 Умыться
-            </button>
-
-            <button onclick="gameAction('rest')">
-                🪑 Отдохнуть
-            </button>
-            <button onclick="work()">
-                💼 Работать
-            </button>
-        </section>
-
-
-        <!-- Сообщения -->
-        <div class="message" id="message">
-            Добро пожаловать в TinyLife 🌷
-        </div>
-
-    </div>
-
-<div class="editor-overlay" id="characterEditor">
-
-    <div class="character-editor">
-
-        <button class="close-editor"
-                onclick="closeCharacterEditor()">
-            ✕
-        </button>
-
-        <h2>Создание персонажа</h2>
-
-        <div class="character-preview">
-
-            <div id="characterPreview">
-                👤
-            </div>
-
-        </div>
-
-        <div class="editor-section">
-
-            <label>
-                Имя
-            </label>
-
-            <input
-                id="characterName"
-                type="text"
-                placeholder="Введите имя"
-                maxlength="20"
-            >
-
-        </div>
-
-
-        <div class="editor-section">
-
-            <label>
-                Волосы
-            </label>
-
-            <div class="selector">
-
-                <button onclick="changeHair(-1)">
-                    ◀
-                </button>
-
-                <span id="hairValue">
-                    Волосы 1
-                </span>
-
-                <button onclick="changeHair(1)">
-                    ▶
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="editor-section">
-
-            <label>
-                Глаза
-            </label>
-
-            <div class="selector">
-
-                <button onclick="changeEyes(-1)">
-                    ◀
-                </button>
-
-                <span id="eyesValue">
-                    Глаза 1
-                </span>
-
-                <button onclick="changeEyes(1)">
-                    ▶
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="editor-section">
-
-            <label>
-                Верх
-            </label>
-
-            <div class="selector">
-
-                <button onclick="changeTop(-1)">
-                    ◀
-                </button>
-
-                <span id="topValue">
-                    Верх 1
-                </span>
-
-                <button onclick="changeTop(1)">
-                    ▶
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="editor-section">
-
-            <label>
-                Низ
-            </label>
-
-            <div class="selector">
-
-                <button onclick="changeBottom(-1)">
-                    ◀
-                </button>
-
-                <span id="bottomValue">
-                    Низ 1
-                </span>
-
-                <button onclick="changeBottom(1)">
-                    ▶
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <button class="save-character"
-                onclick="saveCharacter()">
-
-            💾 Сохранить персонажа
-
-        </button>
-
-    </div>
-
+  </header>
+
+  <main class="game">
+    <section class="room" id="room">
+      <div class="room-title">Моя комната</div>
+      <button class="room-object bed" data-object="bed" aria-label="Кровать">🛏️</button>
+      <button class="room-object computer" data-object="computer" aria-label="Компьютер">💻</button>
+      <button class="room-object plant" data-object="plant" aria-label="Растение">🪴</button>
+      <button class="room-object window" data-object="window" aria-label="Окно">🪟</button>
+      <button class="room-object door" data-object="door" aria-label="Дверь">🚪</button>
+      <div id="character" class="room-character-holder" aria-label="Персонаж"></div>
+      <div id="message" class="message">🌷 Добро пожаловать в TinyLife!</div>
+    </section>
+
+    <aside class="panel">
+      <h2>Что делать?</h2>
+      <button class="action" data-action="sleep">💤 Спать <small>+2ч</small></button>
+      <button class="action" data-action="eat">🍳 Поесть <small>-5€</small></button>
+      <button class="action" data-action="wash">🚿 Умыться <small>+15м</small></button>
+      <button class="action" data-action="rest">🪑 Отдохнуть <small>+30м</small></button>
+      <button class="action work" id="workButton">💼 Работать <small>14:00–17:00</small></button>
+      <button class="action character-btn" id="characterButton">👤 Персонаж</button>
+      <button class="action save-btn" id="saveGameButton">💾 Сохранить игру</button>
+    </aside>
+  </main>
 </div>
-    <script src="game.js"></script>
 
+<div id="characterEditor" class="modal" aria-hidden="true">
+  <div class="editor-card">
+    <button class="close" id="closeEditor">×</button>
+    <div class="editor-head"><h2>👤 Мой персонаж</h2><span id="saveState">Не сохранено</span></div>
+    <div class="editor-grid">
+      <div class="preview-box"><div id="characterPreview" class="character-preview"></div><div class="preview-name" id="previewName">Новый персонаж</div></div>
+      <div class="editor-controls">
+        <label>✏️ Имя<input id="characterName" maxlength="20" placeholder="Введи имя..."></label>
+        <div class="choice-block"><h3>🎨 Стиль персонажа</h3><div id="styleChoices" class="choices"></div></div>
+        <p class="hint">Выбор стиля сразу меняет внешний вид. В следующей версии эти пресеты можно расширить отдельными слоями волос, глаз и одежды.</p>
+        <button class="primary" id="saveCharacterButton">💾 Сохранить персонажа</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="game.js"></script>
 </body>
 </html>
