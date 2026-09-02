@@ -630,30 +630,26 @@ function updateRoomCharacter() {
         return;
     }
 
-
     roomCharacter.innerHTML = `
-        <div class="room-character">
+        <div class="character-2d">
 
-            <div>
-                ${characterStyles.hair[
-                    characterData.hair - 1
-                ]}
-            </div>
+            <img
+                src="assets/body.png"
+                class="character-layer layer-body"
+                alt=""
+            >
 
-            <div>
-                ${characterStyles.eyes[
-                    characterData.eyes - 1
-                ]}
-            </div>
+            <img
+                src="assets/eyes.png"
+                class="character-layer layer-eyes"
+                alt=""
+            >
 
-            <div>
-                ${characterStyles.top[
-                    characterData.top - 1
-                ]}
-                ${characterStyles.bottom[
-                    characterData.bottom - 1
-                ]}
-            </div>
+            <img
+                src="assets/hair1.png"
+                class="character-layer layer-hair"
+                alt=""
+            >
 
         </div>
     `;
