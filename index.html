@@ -132,7 +132,151 @@
 
     </div>
 
+<div class="editor-overlay" id="characterEditor">
 
+    <div class="character-editor">
+
+        <button class="close-editor"
+                onclick="closeCharacterEditor()">
+            ✕
+        </button>
+
+        <h2>Создание персонажа</h2>
+
+        <div class="character-preview">
+
+            <div id="characterPreview">
+                👤
+            </div>
+
+        </div>
+
+        <div class="editor-section">
+
+            <label>
+                Имя
+            </label>
+
+            <input
+                id="characterName"
+                type="text"
+                placeholder="Введите имя"
+                maxlength="20"
+            >
+
+        </div>
+
+
+        <div class="editor-section">
+
+            <label>
+                Волосы
+            </label>
+
+            <div class="selector">
+
+                <button onclick="changeHair(-1)">
+                    ◀
+                </button>
+
+                <span id="hairValue">
+                    Волосы 1
+                </span>
+
+                <button onclick="changeHair(1)">
+                    ▶
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="editor-section">
+
+            <label>
+                Глаза
+            </label>
+
+            <div class="selector">
+
+                <button onclick="changeEyes(-1)">
+                    ◀
+                </button>
+
+                <span id="eyesValue">
+                    Глаза 1
+                </span>
+
+                <button onclick="changeEyes(1)">
+                    ▶
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="editor-section">
+
+            <label>
+                Верх
+            </label>
+
+            <div class="selector">
+
+                <button onclick="changeTop(-1)">
+                    ◀
+                </button>
+
+                <span id="topValue">
+                    Верх 1
+                </span>
+
+                <button onclick="changeTop(1)">
+                    ▶
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="editor-section">
+
+            <label>
+                Низ
+            </label>
+
+            <div class="selector">
+
+                <button onclick="changeBottom(-1)">
+                    ◀
+                </button>
+
+                <span id="bottomValue">
+                    Низ 1
+                </span>
+
+                <button onclick="changeBottom(1)">
+                    ▶
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button class="save-character"
+                onclick="saveCharacter()">
+
+            💾 Сохранить персонажа
+
+        </button>
+
+    </div>
+
+</div>
     <script src="game.js"></script>
 
 </body>
