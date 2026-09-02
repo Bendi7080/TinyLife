@@ -550,3 +550,6 @@ function saveCharacter() {
     closeCharacterEditor();
 }
 console.log("TinyLife JS работает!");
+window.openCharacterEditor = function () {
+    alert("РЕДАКТОР РАБОТАЕТ!");
+};
