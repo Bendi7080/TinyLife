@@ -1,0 +1,59 @@
+/* ==========================================
+   TinyLife 0.4.2
+   2D CHARACTER SYSTEM
+========================================== */
+
+.character-2d {
+    position: relative;
+
+    width: 160px;
+    height: 260px;
+
+    margin: auto;
+}
+
+.character-layer {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+/* Слои персонажа */
+
+.layer-body {
+    z-index: 1;
+}
+
+.layer-eyes {
+    z-index: 2;
+}
+
+.layer-bottom {
+    z-index: 3;
+}
+
+.layer-top {
+    z-index: 4;
+}
+
+.layer-hair {
+    z-index: 5;
+}
+
+.layer-shoes {
+    z-index: 6;
+}
+
+.layer-accessory {
+    z-index: 7;
+}
