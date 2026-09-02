@@ -1,11 +1,5 @@
 // ==========================================
-// TinyLife 0.2
-// Время • Дни • Школа • Работа • Деньги
-// ==========================================
-
-
-// ==========================================
-// ИГРОК
+// TinyLife 0.3
 // ==========================================
 
 const player = {
@@ -13,19 +7,11 @@ const player = {
     hunger: 70,
     mood: 75,
     money: 50,
-
-    // Прогресс
     reputation: 50,
     school: 70
 };
 
-
-// ==========================================
-// КАЛЕНДАРЬ
-// ==========================================
-
 const calendar = {
-
     day: 1,
     month: 9,
     year: 2026,
@@ -43,11 +29,6 @@ const calendar = {
     weekDay: 0
 };
 
-
-// ==========================================
-// ИГРОВОЕ ВРЕМЯ
-// ==========================================
-
 let gameTime = {
     hour: 7,
     minute: 0
@@ -55,56 +36,35 @@ let gameTime = {
 
 
 // ==========================================
-// ЭЛЕМЕНТЫ HTML
+// HTML
 // ==========================================
 
 const clock = document.getElementById("clock");
+const dayElement = document.getElementById("day");
 
-const dayElement =
-    document.getElementById("day");
+const energyElement = document.getElementById("energy");
+const hungerElement = document.getElementById("hunger");
+const moodElement = document.getElementById("mood");
+const moneyElement = document.getElementById("money");
 
-const energyElement =
-    document.getElementById("energy");
-
-const hungerElement =
-    document.getElementById("hunger");
-
-const moodElement =
-    document.getElementById("mood");
-
-const moneyElement =
-    document.getElementById("money");
-
-const messageElement =
-    document.getElementById("message");
+const messageElement = document.getElementById("message");
+const character = document.getElementById("character");
 
 
 // ==========================================
-// ОБНОВЛЕНИЕ ИНТЕРФЕЙСА
+// ОБНОВЛЕНИЕ
 // ==========================================
 
 function updateInterface() {
 
-    // Время
-
-    const hour =
-        String(gameTime.hour).padStart(2, "0");
-
-    const minute =
-        String(gameTime.minute).padStart(2, "0");
-
     clock.textContent =
-        `${hour}:${minute}`;
-
-
-    // День недели и дата
+        String(gameTime.hour).padStart(2, "0") +
+        ":" +
+        String(gameTime.minute).padStart(2, "0");
 
     dayElement.textContent =
         `${calendar.weekDays[calendar.weekDay]}, ` +
         `${calendar.day}.${calendar.month}.${calendar.year}`;
-
-
-    // Характеристики
 
     energyElement.textContent =
         Math.round(player.energy);
@@ -121,122 +81,67 @@ function updateInterface() {
 
 
 // ==========================================
-// ДОБАВЛЕНИЕ ВРЕМЕНИ
+// ВРЕМЯ
 // ==========================================
 
 function addTime(minutes) {
 
     gameTime.minute += minutes;
 
-
     while (gameTime.minute >= 60) {
-
         gameTime.minute -= 60;
-
-        gameTime.hour += 1;
+        gameTime.hour++;
     }
-
-
-    // Новый день
 
     if (gameTime.hour >= 24) {
 
         gameTime.hour = 0;
 
-        nextDay();
-    }
+        calendar.day++;
+        calendar.weekDay++;
 
+        if (calendar.weekDay >= 7) {
+            calendar.weekDay = 0;
+        }
+
+        if (calendar.day > 30) {
+            calendar.day = 1;
+            calendar.month++;
+        }
+
+        if (calendar.month > 12) {
+            calendar.month = 1;
+            calendar.year++;
+        }
+
+        messageElement.textContent =
+            "🌅 Наступил новый день!";
+    }
 
     updateInterface();
 }
 
 
 // ==========================================
-// СЛЕДУЮЩИЙ ДЕНЬ
-// ==========================================
-
-function nextDay() {
-
-    calendar.day += 1;
-
-    calendar.weekDay += 1;
-
-
-    // Воскресенье → Понедельник
-
-    if (calendar.weekDay >= 7) {
-
-        calendar.weekDay = 0;
-    }
-
-
-    // Упрощённый переход месяца
-
-    if (calendar.day > 30) {
-
-        calendar.day = 1;
-
-        calendar.month += 1;
-    }
-
-
-    if (calendar.month > 12) {
-
-        calendar.month = 1;
-
-        calendar.year += 1;
-    }
-
-
-    // Утреннее состояние
-
-    player.energy =
-        Math.max(player.energy - 5, 0);
-
-    player.hunger =
-        Math.max(player.hunger - 10, 0);
-
-
-    messageElement.textContent =
-        "🌅 Наступил новый день!";
-}
-
-
-// ==========================================
-// ОГРАНИЧЕНИЕ ХАРАКТЕРИСТИК
+// ХАРАКТЕРИСТИКИ
 // ==========================================
 
 function clampStats() {
 
     player.energy =
-        Math.max(
-            0,
-            Math.min(100, player.energy)
-        );
+        Math.max(0, Math.min(100, player.energy));
 
     player.hunger =
-        Math.max(
-            0,
-            Math.min(100, player.hunger)
-        );
+        Math.max(0, Math.min(100, player.hunger));
 
     player.mood =
-        Math.max(
-            0,
-            Math.min(100, player.mood)
-        );
+        Math.max(0, Math.min(100, player.mood));
 
     player.school =
-        Math.max(
-            0,
-            Math.min(100, player.school)
-        );
+        Math.max(0, Math.min(100, player.school));
 
     player.reputation =
-        Math.max(
-            0,
-            Math.min(100, player.reputation)
-        );
+        Math.max(0, Math.min(100, player.reputation));
 
     player.money =
         Math.max(0, player.money);
@@ -244,84 +149,73 @@ function clampStats() {
 
 
 // ==========================================
-// ШКОЛА
+// ДВИЖЕНИЕ
 // ==========================================
 
-function checkSchool() {
+const positions = {
 
-    // Школа работает с понедельника
-    // по пятницу.
+    bed: {
+        left: "22%",
+        top: "70%"
+    },
 
-    if (calendar.weekDay >= 5) {
+    computer: {
+        left: "72%",
+        top: "65%"
+    },
 
+    plant: {
+        left: "85%",
+        top: "25%"
+    },
+
+    window: {
+        left: "25%",
+        top: "30%"
+    },
+
+    door: {
+        left: "86%",
+        top: "78%"
+    }
+};
+
+
+function moveCharacter(object) {
+
+    if (!positions[object]) {
         return;
     }
 
+    character.classList.add("moving");
 
-    // Проверяем время
+    character.style.left =
+        positions[object].left;
 
-    if (
-        gameTime.hour === 8 &&
-        gameTime.minute <= 35
-    ) {
+    character.style.top =
+        positions[object].top;
 
-        messageElement.textContent =
-            "🏫 Пора идти в школу!";
-    }
-
-
-    // Если уже слишком поздно
-
-    if (gameTime.hour >= 9) {
-
-        player.school -= 5;
-
-        player.reputation -= 2;
-
-        messageElement.textContent =
-            "🔴 Ты опоздал в школу!";
-    }
+    setTimeout(() => {
+        character.classList.remove("moving");
+    }, 700);
 }
 
 
 // ==========================================
-// РАБОТА
+// ВЗАИМОДЕЙСТВИЕ
 // ==========================================
 
-function checkWork() {
+function interact(object) {
 
-    // Работа доступна после школы.
-
-    if (
-        gameTime.hour === 16 &&
-        gameTime.minute <= 30
-    ) {
-
-        messageElement.textContent =
-            "💼 Началась твоя смена!";
-    }
-}
+    moveCharacter(object);
 
 
-// ==========================================
-// ДЕЙСТВИЯ
-// ==========================================
-
-function gameAction(action) {
-
-
-    // ======================================
-    // СПАТЬ
-    // ======================================
-
-    if (action === "sleep") {
+    if (object === "bed") {
 
         addTime(120);
 
         player.energy += 35;
-
         player.hunger -= 10;
-
         player.mood += 5;
 
         messageElement.textContent =
@@ -329,9 +223,71 @@ function gameAction(action) {
     }
 
 
-    // ======================================
-    // ЕДА
-    // ======================================
+    else if (object === "computer") {
+
+        addTime(30);
+
+        player.energy -= 5;
+        player.mood += 8;
+
+        messageElement.textContent =
+            "🖥️ Ты посидел за компьютером.";
+    }
+
+
+    else if (object === "plant") {
+
+        addTime(5);
+
+        player.mood += 4;
+
+        messageElement.textContent =
+            "🪴 Ты полил растение.";
+    }
+
+
+    else if (object === "window") {
+
+        addTime(5);
+
+        player.mood += 3;
+
+        messageElement.textContent =
+            "🪟 Ты посмотрел в окно.";
+    }
+
+
+    else if (object === "door") {
+
+        addTime(10);
+
+        messageElement.textContent =
+            "🚪 Ты подошёл к двери.";
+    }
+
+
+    else if (object === "character") {
+
+        messageElement.textContent =
+            "👤 Это твой персонаж.";
+    }
+
+
+    clampStats();
+    updateInterface();
+}
+
+
+// ==========================================
+// КНОПКИ
+// ==========================================
+
+function gameAction(action) {
+
+    if (action === "sleep") {
+        interact("bed");
+        return;
+    }
 
     if (action === "eat") {
 
@@ -343,13 +299,10 @@ function gameAction(action) {
             return;
         }
 
-
         addTime(25);
 
         player.money -= 5;
-
         player.hunger += 30;
-
         player.mood += 5;
 
         messageElement.textContent =
@@ -357,16 +310,11 @@ function gameAction(action) {
     }
 
 
-    // ======================================
-    // УМЫТЬСЯ
-    // ======================================
-
     if (action === "wash") {
 
         addTime(15);
 
         player.energy -= 4;
-
         player.mood += 10;
 
         messageElement.textContent =
@@ -374,27 +322,19 @@ function gameAction(action) {
     }
 
 
-    // ======================================
-    // ОТДОХНУТЬ
-    // ======================================
-
     if (action === "rest") {
 
         addTime(30);
 
         player.energy += 8;
-
         player.hunger -= 3;
-
         player.mood += 5;
 
         messageElement.textContent =
             "🪑 Ты немного отдохнул.";
     }
 
-
     clampStats();
-
     updateInterface();
 }
 
@@ -405,8 +345,6 @@ function gameAction(action) {
 
 function work() {
 
-    // Работа занимает 3 часа.
-
     if (gameTime.hour < 14) {
 
         messageElement.textContent =
@@ -414,7 +352,6 @@ function work() {
 
         return;
     }
-
 
     if (gameTime.hour >= 17) {
 
@@ -424,20 +361,15 @@ function work() {
         return;
     }
 
-
     addTime(180);
 
-
     player.money += 30;
-
     player.energy -= 15;
-
     player.mood -= 5;
-
     player.reputation += 2;
 
-
     clampStats();
+    updateInterface();
 
     messageElement.textContent =
         "💼 Смена закончена! +30€";
@@ -445,39 +377,17 @@ function work() {
 
 
 // ==========================================
-// ПРОВЕРКА СОБЫТИЙ
+// АВТОМАТИЧЕСКОЕ ВРЕМЯ
 // ==========================================
-
-setInterval(() => {
-
-    checkSchool();
-
-    checkWork();
-
-    clampStats();
-
-    updateInterface();
-
-}, 1000);
-
-
-// ==========================================
-// ВРЕМЯ ИГРЫ
-// ==========================================
-
-// Каждые 10 секунд
-// проходит 5 минут.
 
 setInterval(() => {
 
     addTime(5);
 
     player.energy -= 0.2;
-
     player.hunger -= 0.15;
 
     clampStats();
-
     updateInterface();
 
 }, 10000);
@@ -490,171 +400,4 @@ setInterval(() => {
 updateInterface();
 
 messageElement.textContent =
-    "🌷 Новый день начинается...";
-// ==========================================
-// TinyLife 0.3
-// Интерактивные предметы
-// ==========================================
-
-
-// ==========================================
-// ПОЗИЦИИ ПРЕДМЕТОВ
-// ==========================================
-
-const objectPositions = {
-
-    bed: {
-        left: 18,
-        top: 70
-    },
-
-    computer: {
-        left: 72,
-        top: 65
-    },
-
-    plant: {
-        left: 88,
-        top: 22
-    },
-
-    window: {
-        left: 18,
-        top: 25
-    },
-
-    door: {
-        left: 90,
-        top: 78
-    }
-};
-
-
-// ==========================================
-// ВЗАИМОДЕЙСТВИЕ
-// ==========================================
-
-function interact(object) {
-
-    const character =
-        document.getElementById("character");
-
-
-    // Персонаж идёт к предмету
-
-    if (objectPositions[object]) {
-
-        const position =
-            objectPositions[object];
-
-        character.style.left =
-            position.left + "%";
-
-        character.style.top =
-            position.top + "%";
-
-        character.classList.add("moving");
-
-
-        setTimeout(() => {
-
-            character.classList.remove("moving");
-
-        }, 700);
-    }
-
-
-    // ======================================
-    // КРОВАТЬ
-    // ======================================
-
-    if (object === "bed") {
-
-        addTime(120);
-
-        player.energy += 35;
-
-        player.hunger -= 10;
-
-        player.mood += 5;
-
-        messageElement.textContent =
-            "💤 Ты лёг поспать. Прошло 2 часа.";
-    }
-
-
-    // ======================================
-    // КОМПЬЮТЕР
-    // ======================================
-
-    if (object === "computer") {
-
-        addTime(30);
-
-        player.energy -= 5;
-
-        player.mood += 8;
-
-        messageElement.textContent =
-            "🖥️ Ты немного посидел за компьютером.";
-    }
-
-
-    // ======================================
-    // РАСТЕНИЕ
-    // ======================================
-
-    if (object === "plant") {
-
-        addTime(5);
-
-        player.mood += 4;
-
-        messageElement.textContent =
-            "🪴 Ты полил растение.";
-    }
-
-
-    // ======================================
-    // ОКНО
-    // ======================================
-
-    if (object === "window") {
-
-        player.mood += 3;
-
-        messageElement.textContent =
-            "🪟 Ты посмотрел в окно. На улице спокойно.";
-    }
-
-
-    // ======================================
-    // ДВЕРЬ
-    // ======================================
-
-    if (object === "door") {
-
-        addTime(10);
-
-        messageElement.textContent =
-            "🚪 Ты подошёл к двери. Скоро можно будет выйти в город.";
-    }
-
-
-    // ======================================
-    // САМИ СЕБЯ
-    // ======================================
-
-    if (object === "character") {
-
-        messageElement.textContent =
-            `👤 Энергия: ${Math.round(player.energy)} | ` +
-            `Голод: ${Math.round(player.hunger)} | ` +
-            `Настроение: ${Math.round(player.mood)}`;
-    }
-
-
-    clampStats();
-
-    updateInterface();
-}
+    "🌷 Добро пожаловать в TinyLife 0.3!";
