@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>TinyLife</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="game">
+
+        <!-- Верхняя панель -->
+        <header class="top-bar">
+
+            <div class="game-title">
+                <h1>TinyLife</h1>
+                <p id="day">Понедельник, 1 сентября</p>
+            </div>
+
+            <div class="clock" id="clock">
+                07:00
+            </div>
+
+        </header>
+
+
+        <!-- Комната -->
+        <main class="room">
+
+            <div class="window">
+                ☀️
+            </div>
+
+            <div class="bed">
+                🛏️
+            </div>
+
+            <div class="desk">
+                🖥️
+            </div>
+
+            <div class="plant">
+                🪴
+            </div>
+
+            <div class="rug"></div>
+
+            <div class="character" id="character">
+                🧍
+            </div>
+
+            <div class="door">
+                🚪
+            </div>
+
+        </main>
+
+
+        <!-- Характеристики -->
+        <section class="stats">
+
+            <div class="stat">
+                <span>⚡ Энергия</span>
+                <strong id="energy">80</strong>
+            </div>
+
+            <div class="stat">
+                <span>🍎 Голод</span>
+                <strong id="hunger">70</strong>
+            </div>
+
+            <div class="stat">
+                <span>🙂 Настроение</span>
+                <strong id="mood">75</strong>
+            </div>
+
+            <div class="stat">
+                <span>💶 Деньги</span>
+                <strong id="money">50</strong>
+            </div>
+
+        </section>
+
+
+        <!-- Действия -->
+        <section class="actions">
+
+            <button onclick="gameAction('sleep')">
+                🛏️ Спать
+            </button>
+
+            <button onclick="gameAction('eat')">
+                🍳 Поесть
+            </button>
+
+            <button onclick="gameAction('wash')">
+                🚿 Умыться
+            </button>
+
+            <button onclick="gameAction('rest')">
+                🪑 Отдохнуть
+            </button>
+
+        </section>
+
+
+        <!-- Сообщения -->
+        <div class="message" id="message">
+            Добро пожаловать в TinyLife 🌷
+        </div>
+
+    </div>
+
+
+    <script src="game.js"></script>
+
+</body>
+</html>
