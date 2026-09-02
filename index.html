@@ -31,35 +31,45 @@
         <!-- Комната -->
         <main class="room">
 
-            <div class="window">
-                ☀️
-            </div>
+    <div class="window interactable"
+         data-object="window"
+         onclick="interact('window')">
+        ☀️
+    </div>
 
-            <div class="bed">
-                🛏️
-            </div>
+    <div class="bed interactable"
+         data-object="bed"
+         onclick="interact('bed')">
+        🛏️
+    </div>
 
-            <div class="desk">
-                🖥️
-            </div>
+    <div class="desk interactable"
+         data-object="computer"
+         onclick="interact('computer')">
+        🖥️
+    </div>
 
-            <div class="plant">
-                🪴
-            </div>
+    <div class="plant interactable"
+         data-object="plant"
+         onclick="interact('plant')">
+        🪴
+    </div>
 
-            <div class="rug"></div>
+    <div class="rug"></div>
 
-            <div class="character" id="character">
-                🧍
-            </div>
+    <div class="character"
+         id="character"
+         onclick="interact('character')">
+        🧍
+    </div>
 
-            <div class="door">
-                🚪
-            </div>
+    <div class="door interactable"
+         data-object="door"
+         onclick="interact('door')">
+        🚪
+    </div>
 
-        </main>
-
-
+</main>
         <!-- Характеристики -->
         <section class="stats">
 
