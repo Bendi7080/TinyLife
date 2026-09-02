@@ -620,10 +620,7 @@ updateRoomCharacter();
 
     closeCharacterEditor();
 }
-console.log("TinyLife JS работает!");
-window.openCharacterEditor = function () {
-    
-};
+
 function updateRoomCharacter() {
 
     const roomCharacter =
