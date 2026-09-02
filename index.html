@@ -1,62 +1,444 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TinyLife</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="assets.css">
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+    <meta name="theme-color" content="#f6eff9">
+    <meta
+        name="description"
+        content="TinyLife — уютный браузерный life simulator."
+    >
+    <title>TinyLife 0.5</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets.css">
 </head>
+
 <body>
-<div class="app">
-  <header class="topbar">
-    <div><div class="logo">Tiny<span>Life</span></div><div id="day" class="date">Понедельник, 1.9.2026</div></div>
-    <div class="clockbox">🕐 <b id="clock">07:00</b></div>
-    <div class="stats">
-      <div>⚡ <b id="energy">80</b></div><div>🍽️ <b id="hunger">70</b></div><div>😊 <b id="mood">75</b></div><div>💶 <b id="money">50</b></div>
+    <div class="app-shell" id="app">
+
+        <!-- =========================================================
+             TOP BAR
+        ========================================================== -->
+        <header class="topbar">
+            <div class="brand-block">
+                <div class="logo">
+                    Tiny<span>Life</span>
+                    <small>0.5</small>
+                </div>
+
+                <div class="date-line">
+                    <span id="day">Понедельник, 1.09.2026</span>
+                    <span class="dot">•</span>
+                    <span id="season">🍂 Осень</span>
+                </div>
+            </div>
+
+            <div class="clock-card">
+                <span class="clock-icon">🕐</span>
+                <strong id="clock">07:00</strong>
+                <span id="timePeriod">Утро</span>
+            </div>
+
+            <div class="top-stats" aria-label="Характеристики">
+                <div class="stat-pill" title="Энергия">
+                    <span>⚡</span>
+                    <b id="energy">80</b>
+                    <small>энергия</small>
+                </div>
+
+                <div class="stat-pill" title="Сытость">
+                    <span>🍽️</span>
+                    <b id="hunger">70</b>
+                    <small>голод</small>
+                </div>
+
+                <div class="stat-pill" title="Настроение">
+                    <span>😊</span>
+                    <b id="mood">75</b>
+                    <small>настроение</small>
+                </div>
+
+                <div class="stat-pill" title="Деньги">
+                    <span>💶</span>
+                    <b id="money">50</b>
+                    <small>евро</small>
+                </div>
+            </div>
+        </header>
+
+        <!-- =========================================================
+             MAIN GAME AREA
+        ========================================================== -->
+        <main class="main-layout">
+
+            <section class="game-column">
+
+                <!-- ROOM -->
+                <section class="room-card" id="room">
+                    <div class="room-header">
+                        <div>
+                            <span class="eyebrow">ЛОКАЦИЯ</span>
+                            <h1 id="locationName">Моя комната</h1>
+                        </div>
+
+                        <div class="room-status">
+                            <span class="status-dot"></span>
+                            <span id="locationStatus">Дома</span>
+                        </div>
+                    </div>
+
+                    <!-- Decorative room -->
+                    <div class="room-scene" id="roomScene">
+
+                        <div class="wall-decoration decoration-left">✦</div>
+                        <div class="wall-decoration decoration-right">♡</div>
+
+                        <div class="window-frame scene-object"
+                             data-object="window"
+                             role="button"
+                             tabindex="0"
+                             aria-label="Окно">
+                            <div class="window-sky"></div>
+                            <div class="window-cloud cloud-one"></div>
+                            <div class="window-cloud cloud-two"></div>
+                            <span class="object-label">Окно</span>
+                        </div>
+
+                        <div class="bed scene-object"
+                             data-object="bed"
+                             role="button"
+                             tabindex="0"
+                             aria-label="Кровать">
+                            <div class="bed-head"></div>
+                            <div class="bed-mattress"></div>
+                            <div class="bed-blanket"></div>
+                            <div class="bed-pillow"></div>
+                            <span class="object-label">Кровать</span>
+                        </div>
+
+                        <div class="desk scene-object"
+                             data-object="computer"
+                             role="button"
+                             tabindex="0"
+                             aria-label="Компьютер">
+                            <div class="desk-top"></div>
+                            <div class="desk-leg left"></div>
+                            <div class="desk-leg right"></div>
+                            <div class="monitor">
+                                <div class="monitor-screen">♡</div>
+                            </div>
+                            <div class="keyboard"></div>
+                            <span class="object-label">Компьютер</span>
+                        </div>
+
+                        <div class="plant scene-object"
+                             data-object="plant"
+                             role="button"
+                             tabindex="0"
+                             aria-label="Растение">
+                            <div class="plant-leaf leaf-a"></div>
+                            <div class="plant-leaf leaf-b"></div>
+                            <div class="plant-leaf leaf-c"></div>
+                            <div class="plant-pot"></div>
+                            <span class="object-label">Растение</span>
+                        </div>
+
+                        <div class="door scene-object"
+                             data-object="door"
+                             role="button"
+                             tabindex="0"
+                             aria-label="Дверь">
+                            <div class="door-knob"></div>
+                            <span class="object-label">Дверь</span>
+                        </div>
+
+                        <!-- The character is NOT a button. -->
+                        <div
+                            id="character"
+                            class="room-character-holder"
+                            role="button"
+                            tabindex="0"
+                            aria-label="Твой персонаж"
+                        ></div>
+
+                        <div class="interaction-hint" id="interactionHint">
+                            Нажми на предмет в комнате
+                        </div>
+
+                        <div class="toast-message" id="message">
+                            🌷 Добро пожаловать в TinyLife!
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- QUICK ACTIONS -->
+                <section class="quick-panel">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">БЫСТРЫЕ ДЕЙСТВИЯ</span>
+                            <h2>Что делать?</h2>
+                        </div>
+                        <span class="muted" id="actionCount">0 действий</span>
+                    </div>
+
+                    <div class="quick-actions">
+                        <button class="action-card" data-action="eat">
+                            <span class="action-icon">🍳</span>
+                            <span class="action-copy">
+                                <b>Поесть</b>
+                                <small>-5€ · +30 сытости</small>
+                            </span>
+                        </button>
+
+                        <button class="action-card" data-action="wash">
+                            <span class="action-icon">🚿</span>
+                            <span class="action-copy">
+                                <b>Умыться</b>
+                                <small>+15 минут</small>
+                            </span>
+                        </button>
+
+                        <button class="action-card" data-action="rest">
+                            <span class="action-icon">🪑</span>
+                            <span class="action-copy">
+                                <b>Отдохнуть</b>
+                                <small>+8 энергии</small>
+                            </span>
+                        </button>
+
+                        <button class="action-card" data-action="study">
+                            <span class="action-icon">📚</span>
+                            <span class="action-copy">
+                                <b>Учиться</b>
+                                <small>+ школа · - энергия</small>
+                            </span>
+                        </button>
+
+                        <button class="action-card work-card" data-action="work">
+                            <span class="action-icon">💼</span>
+                            <span class="action-copy">
+                                <b>Работать</b>
+                                <small>14:00–17:00 · +30€</small>
+                            </span>
+                        </button>
+
+                        <button class="action-card" data-action="save">
+                            <span class="action-icon">💾</span>
+                            <span class="action-copy">
+                                <b>Сохранить</b>
+                                <small>сохранить прогресс</small>
+                            </span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- EVENT / LOG -->
+                <section class="log-panel">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">ЖУРНАЛ</span>
+                            <h2>Последние события</h2>
+                        </div>
+                        <button class="text-button" id="clearLogButton">
+                            Очистить
+                        </button>
+                    </div>
+
+                    <div id="eventLog" class="event-log"></div>
+                </section>
+
+            </section>
+
+            <!-- =====================================================
+                 SIDEBAR
+            ====================================================== -->
+            <aside class="sidebar">
+
+                <section class="side-card profile-card">
+                    <div class="profile-top">
+                        <div class="mini-avatar" id="miniAvatar"></div>
+                        <div>
+                            <span class="eyebrow">ПЕРСОНАЖ</span>
+                            <h2 id="profileName">Новый персонаж</h2>
+                            <p id="profileMood">Сегодня всё спокойно.</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-progress">
+                        <div class="progress-line">
+                            <span>🎓 Школа</span>
+                            <b id="school">70</b>
+                        </div>
+                        <div class="progress-track">
+                            <div id="schoolBar" class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-progress">
+                        <div class="progress-line">
+                            <span>⭐ Репутация</span>
+                            <b id="reputation">50</b>
+                        </div>
+                        <div class="progress-track">
+                            <div id="reputationBar" class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <button class="primary-button full" id="characterButton">
+                        👤 Открыть персонажа
+                    </button>
+                </section>
+
+                <section class="side-card inventory-card">
+                    <div class="section-heading compact">
+                        <div>
+                            <span class="eyebrow">РЮКЗАК</span>
+                            <h2>Инвентарь</h2>
+                        </div>
+                        <span id="inventoryCount">0/12</span>
+                    </div>
+
+                    <div id="inventoryGrid" class="inventory-grid"></div>
+                </section>
+
+                <section class="side-card schedule-card">
+                    <div class="section-heading compact">
+                        <div>
+                            <span class="eyebrow">РАСПИСАНИЕ</span>
+                            <h2>Сегодня</h2>
+                        </div>
+                    </div>
+
+                    <div class="schedule-list" id="scheduleList"></div>
+                </section>
+
+                <section class="side-card system-card">
+                    <button class="secondary-button full" id="newDayButton">
+                        🌙 Перемотать до утра
+                    </button>
+
+                    <button class="secondary-button full" id="resetButton">
+                        ♻️ Начать заново
+                    </button>
+
+                    <div class="save-indicator">
+                        <span class="save-light" id="saveLight"></span>
+                        <span id="saveText">Сохранение не выполнено</span>
+                    </div>
+                </section>
+
+            </aside>
+        </main>
     </div>
-  </header>
 
-  <main class="game">
-    <section class="room" id="room">
-      <div class="room-title">Моя комната</div>
-      <button class="room-object bed" data-object="bed" aria-label="Кровать">🛏️</button>
-      <button class="room-object computer" data-object="computer" aria-label="Компьютер">💻</button>
-      <button class="room-object plant" data-object="plant" aria-label="Растение">🪴</button>
-      <button class="room-object window" data-object="window" aria-label="Окно">🪟</button>
-      <button class="room-object door" data-object="door" aria-label="Дверь">🚪</button>
-      <div id="character" class="room-character-holder" aria-label="Персонаж"></div>
-      <div id="message" class="message">🌷 Добро пожаловать в TinyLife!</div>
-    </section>
+    <!-- =============================================================
+         CHARACTER EDITOR MODAL
+    ============================================================= -->
+    <div
+        id="characterEditor"
+        class="modal"
+        aria-hidden="true"
+    >
+        <div class="editor-card" role="dialog" aria-modal="true">
 
-    <aside class="panel">
-      <h2>Что делать?</h2>
-      <button class="action" data-action="sleep">💤 Спать <small>+2ч</small></button>
-      <button class="action" data-action="eat">🍳 Поесть <small>-5€</small></button>
-      <button class="action" data-action="wash">🚿 Умыться <small>+15м</small></button>
-      <button class="action" data-action="rest">🪑 Отдохнуть <small>+30м</small></button>
-      <button class="action work" id="workButton">💼 Работать <small>14:00–17:00</small></button>
-      <button class="action character-btn" id="characterButton">👤 Персонаж</button>
-      <button class="action save-btn" id="saveGameButton">💾 Сохранить игру</button>
-    </aside>
-  </main>
-</div>
+            <button class="close-button" id="closeEditor" aria-label="Закрыть">
+                ×
+            </button>
 
-<div id="characterEditor" class="modal" aria-hidden="true">
-  <div class="editor-card">
-    <button class="close" id="closeEditor">×</button>
-    <div class="editor-head"><h2>👤 Мой персонаж</h2><span id="saveState">Не сохранено</span></div>
-    <div class="editor-grid">
-      <div class="preview-box"><div id="characterPreview" class="character-preview"></div><div class="preview-name" id="previewName">Новый персонаж</div></div>
-      <div class="editor-controls">
-        <label>✏️ Имя<input id="characterName" maxlength="20" placeholder="Введи имя..."></label>
-        <div class="choice-block"><h3>🎨 Стиль персонажа</h3><div id="styleChoices" class="choices"></div></div>
-        <p class="hint">Выбор стиля сразу меняет внешний вид. В следующей версии эти пресеты можно расширить отдельными слоями волос, глаз и одежды.</p>
-        <button class="primary" id="saveCharacterButton">💾 Сохранить персонажа</button>
-      </div>
+            <div class="editor-header">
+                <div>
+                    <span class="eyebrow">РЕДАКТОР</span>
+                    <h2>👤 Мой персонаж</h2>
+                    <p>Настрой внешний вид и сохрани его для игры.</p>
+                </div>
+
+                <span class="editor-save-state" id="saveState">
+                    Не сохранено
+                </span>
+            </div>
+
+            <div class="editor-layout">
+
+                <div class="editor-preview-column">
+                    <div class="large-preview">
+                        <div class="preview-glow"></div>
+                        <div id="characterPreview" class="character-preview"></div>
+                    </div>
+
+                    <div class="preview-caption">
+                        <strong id="previewName">Новый персонаж</strong>
+                        <span id="previewStyle">Уютный</span>
+                    </div>
+                </div>
+
+                <div class="editor-controls">
+
+                    <label class="field-label">
+                        <span>✏️ Имя</span>
+                        <input
+                            id="characterName"
+                            maxlength="20"
+                            autocomplete="off"
+                            placeholder="Введи имя..."
+                        >
+                    </label>
+
+                    <div class="control-section">
+                        <div class="control-title">
+                            <span>🎨 Образ</span>
+                            <small>готовые варианты</small>
+                        </div>
+
+                        <div id="styleChoices" class="style-grid"></div>
+                    </div>
+
+                    <div class="control-section">
+                        <div class="control-title">
+                            <span>🎭 Выражение</span>
+                            <small>настроение персонажа</small>
+                        </div>
+
+                        <div id="expressionChoices" class="expression-grid"></div>
+                    </div>
+
+                    <div class="editor-note">
+                        💡 В этой версии образы уже подключены к игре. Следующий
+                        большой этап может заменить их настоящими слоями
+                        волос, глаз, одежды и аксессуаров.
+                    </div>
+
+                    <button class="primary-button full large" id="saveCharacterButton">
+                        💾 Сохранить персонажа
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<script src="game.js"></script>
+
+    <!-- =============================================================
+         CONFIRM MODAL
+    ============================================================= -->
+    <div id="confirmModal" class="modal small-modal" aria-hidden="true">
+        <div class="confirm-card">
+            <div class="confirm-icon">♻️</div>
+            <h2>Начать заново?</h2>
+            <p>Текущий прогресс будет удалён с этого устройства.</p>
+            <div class="confirm-actions">
+                <button class="secondary-button" id="cancelReset">
+                    Отмена
+                </button>
+                <button class="danger-button" id="confirmReset">
+                    Начать заново
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
 </body>
 </html>
