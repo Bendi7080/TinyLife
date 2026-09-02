@@ -358,3 +358,74 @@ button:active {
         font-size: 70px;
     }
 }
+/* =========================
+   ИНТЕРАКТИВНЫЕ ПРЕДМЕТЫ
+========================= */
+
+.interactable {
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.interactable:hover {
+    transform: scale(1.08);
+    filter: brightness(1.05);
+}
+
+.interactable:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================
+   ДВИЖЕНИЕ ПЕРСОНАЖА
+========================= */
+
+.character {
+    cursor: pointer;
+
+    transition:
+        left 0.6s ease,
+        top 0.6s ease,
+        transform 0.25s ease;
+}
+
+.character.moving {
+    animation: walking 0.3s infinite alternate;
+}
+
+@keyframes walking {
+
+    from {
+        transform:
+            translate(-50%, -50%)
+            translateY(0);
+    }
+
+    to {
+        transform:
+            translate(-50%, -50%)
+            translateY(-5px);
+    }
+}
+
+
+/* =========================
+   ПОДСКАЗКА
+========================= */
+
+.interactable::after {
+    content: "•";
+
+    position: absolute;
+
+    opacity: 0;
+
+    transition: opacity 0.2s;
+
+    pointer-events: none;
+}
+
+.interactable:hover::after {
+    opacity: 1;
+}
