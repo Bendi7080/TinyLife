@@ -549,3 +549,4 @@ function saveCharacter() {
 
     closeCharacterEditor();
 }
+console.log("TinyLife JS работает!");
