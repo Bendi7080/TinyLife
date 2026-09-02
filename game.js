@@ -420,6 +420,39 @@ const characterData = {
 };
 
 
+// Варианты внешности
+
+const characterStyles = {
+
+    hair: [
+        "💇",
+        "👩‍🦰",
+        "👱",
+        "👩‍🦱"
+    ],
+
+    eyes: [
+        "👀",
+        "👁️",
+        "◉",
+        "◍"
+    ],
+
+    top: [
+        "👕",
+        "🧥",
+        "👚",
+        "🥼"
+    ],
+
+    bottom: [
+        "👖",
+        "🩳",
+        "👗",
+        "👖"
+    ]
+};
+
 function openCharacterEditor() {
 
     const editor =
@@ -517,14 +550,51 @@ function changeBottom(amount) {
     updateCharacterEditor();
 }
 
-
 function updateCharacterPreview() {
 
     const preview =
         document.getElementById("characterPreview");
 
-    preview.textContent = "👤";
+    const hair =
+        characterStyles.hair[
+            characterData.hair - 1
+        ];
+
+    const eyes =
+        characterStyles.eyes[
+            characterData.eyes - 1
+        ];
+
+    const top =
+        characterStyles.top[
+            characterData.top - 1
+        ];
+
+    const bottom =
+        characterStyles.bottom[
+            characterData.bottom - 1
+        ];
+
+
+    preview.innerHTML = `
+        <div class="preview-character">
+
+            <div class="preview-hair">
+                ${hair}
+            </div>
+
+            <div class="preview-eyes">
+                ${eyes}
+            </div>
+
+            <div class="preview-clothes">
+                ${top} ${bottom}
+            </div>
+
+        </div>
+    `;
 }
+
 
 
 function saveCharacter() {
@@ -542,7 +612,8 @@ function saveCharacter() {
         "tinyLifeCharacter",
         JSON.stringify(characterData)
     );
-
+    
+updateRoomCharacter();
 
     messageElement.textContent =
         `👤 Персонаж "${characterData.name}" сохранён!`;
@@ -551,5 +622,42 @@ function saveCharacter() {
 }
 console.log("TinyLife JS работает!");
 window.openCharacterEditor = function () {
-    alert("РЕДАКТОР РАБОТАЕТ!");
+    
 };
+function updateRoomCharacter() {
+
+    const roomCharacter =
+        document.getElementById("character");
+
+    if (!roomCharacter) {
+        return;
+    }
+
+
+    roomCharacter.innerHTML = `
+        <div class="room-character">
+
+            <div>
+                ${characterStyles.hair[
+                    characterData.hair - 1
+                ]}
+            </div>
+
+            <div>
+                ${characterStyles.eyes[
+                    characterData.eyes - 1
+                ]}
+            </div>
+
+            <div>
+                ${characterStyles.top[
+                    characterData.top - 1
+                ]}
+                ${characterStyles.bottom[
+                    characterData.bottom - 1
+                ]}
+            </div>
+
+        </div>
+    `;
+}
