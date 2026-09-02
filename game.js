@@ -491,3 +491,170 @@ updateInterface();
 
 messageElement.textContent =
     "🌷 Новый день начинается...";
+// ==========================================
+// TinyLife 0.3
+// Интерактивные предметы
+// ==========================================
+
+
+// ==========================================
+// ПОЗИЦИИ ПРЕДМЕТОВ
+// ==========================================
+
+const objectPositions = {
+
+    bed: {
+        left: 18,
+        top: 70
+    },
+
+    computer: {
+        left: 72,
+        top: 65
+    },
+
+    plant: {
+        left: 88,
+        top: 22
+    },
+
+    window: {
+        left: 18,
+        top: 25
+    },
+
+    door: {
+        left: 90,
+        top: 78
+    }
+};
+
+
+// ==========================================
+// ВЗАИМОДЕЙСТВИЕ
+// ==========================================
+
+function interact(object) {
+
+    const character =
+        document.getElementById("character");
+
+
+    // Персонаж идёт к предмету
+
+    if (objectPositions[object]) {
+
+        const position =
+            objectPositions[object];
+
+        character.style.left =
+            position.left + "%";
+
+        character.style.top =
+            position.top + "%";
+
+        character.classList.add("moving");
+
+
+        setTimeout(() => {
+
+            character.classList.remove("moving");
+
+        }, 700);
+    }
+
+
+    // ======================================
+    // КРОВАТЬ
+    // ======================================
+
+    if (object === "bed") {
+
+        addTime(120);
+
+        player.energy += 35;
+
+        player.hunger -= 10;
+
+        player.mood += 5;
+
+        messageElement.textContent =
+            "💤 Ты лёг поспать. Прошло 2 часа.";
+    }
+
+
+    // ======================================
+    // КОМПЬЮТЕР
+    // ======================================
+
+    if (object === "computer") {
+
+        addTime(30);
+
+        player.energy -= 5;
+
+        player.mood += 8;
+
+        messageElement.textContent =
+            "🖥️ Ты немного посидел за компьютером.";
+    }
+
+
+    // ======================================
+    // РАСТЕНИЕ
+    // ======================================
+
+    if (object === "plant") {
+
+        addTime(5);
+
+        player.mood += 4;
+
+        messageElement.textContent =
+            "🪴 Ты полил растение.";
+    }
+
+
+    // ======================================
+    // ОКНО
+    // ======================================
+
+    if (object === "window") {
+
+        player.mood += 3;
+
+        messageElement.textContent =
+            "🪟 Ты посмотрел в окно. На улице спокойно.";
+    }
+
+
+    // ======================================
+    // ДВЕРЬ
+    // ======================================
+
+    if (object === "door") {
+
+        addTime(10);
+
+        messageElement.textContent =
+            "🚪 Ты подошёл к двери. Скоро можно будет выйти в город.";
+    }
+
+
+    // ======================================
+    // САМИ СЕБЯ
+    // ======================================
+
+    if (object === "character") {
+
+        messageElement.textContent =
+            `👤 Энергия: ${Math.round(player.energy)} | ` +
+            `Голод: ${Math.round(player.hunger)} | ` +
+            `Настроение: ${Math.round(player.mood)}`;
+    }
+
+
+    clampStats();
+
+    updateInterface();
+}
